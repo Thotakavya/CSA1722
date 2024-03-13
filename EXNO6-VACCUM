@@ -1,0 +1,41 @@
+import random
+
+class VacuumAgent:
+    def __init__(self):
+        self.location = random.choice(['A', 'B'])  # Randomly assign the initial location
+
+    def sense(self, environment):
+        return environment[self.location]
+
+    def move(self):
+        self.location = 'A' if self.location == 'B' else 'B'  # Move to the other location
+
+    def clean(self):
+        print(f"Vacuum cleaner is cleaning at location {self.location}")
+        return f"Cleaned at location {self.location}"
+
+def run_simulation(steps):
+    agent = VacuumAgent()
+    environment = {
+        'A': random.choice(['Dirty', 'Clean']),
+        'B': random.choice(['Dirty', 'Clean'])
+    }
+
+    print(f"Initial Environment: {environment}")
+
+    for step in range(steps):
+        percept = agent.sense(environment)
+
+        if percept == 'Dirty':
+            action = agent.clean()
+            environment[agent.location] = 'Clean'
+        else:
+            action = "No operation"
+
+        agent.move()
+        print(f"Step {step + 1}: {percept} -> {action}")
+        print(f"New Environment: {environment}")
+
+if __name__ == "__main__":
+    num_steps = 5
+    run_simulation(num_steps)
